@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export function App() {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
@@ -18,29 +17,11 @@ export function App() {
     }
   }, []);
 
-  
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
     localStorage.setItem('contacts', JSON.stringify(contacts));
+
     if (contacts.length === 0) localStorage.removeItem('contacts');
   }, [contacts]);
-
-  // componentDidMount() {
-  //   const contacts = JSON.parse(localStorage.getItem('contacts'));
-  //   if (contacts) {
-  //     this.setState({ contacts });
-  //   }
-  // }
-
-  // componentDidUpdate(_, prevState) {
-  //   const { contacts } = this.state;
-  //   if (contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   }
-  // }
 
   const addContact = data => {
     const contact = { id: nanoid(), ...data };
