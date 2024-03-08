@@ -16,18 +16,16 @@ export function App() {
     if (localStorageContacts) {
       setContacts(localStorageContacts);
     }
-    console.log('mount');
   }, []);
 
   
   useEffect(() => {
     if (isFirstRender.current) {
-      console.log(isFirstRender);
       isFirstRender.current = false;
       return;
     }
-    console.log(contacts);
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (contacts.length === 0) localStorage.removeItem('contacts');
   }, [contacts]);
 
   // componentDidMount() {
