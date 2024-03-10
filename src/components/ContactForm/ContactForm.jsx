@@ -1,53 +1,51 @@
-import { Component } from 'react';
 import { Button, FormContact, Input, Label } from './ContactForm.styled';
+import React, { useState } from 'react';
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === 'name') {
+      setName(value);
+    }
+    if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
-    this.props.onSubmit({ name, number });
-    this.setState({ name: '', number: '' });
+    onSubmit({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <FormContact autoComplete="off" onSubmit={this.handleSubmit}>
-        <Label>
-          Name
-          <Input
-            type="text"
-            name="name"
-            value={this.state.name}
-            required
-            onChange={this.handleChange}
-          />
-        </Label>
+  return (
+    <FormContact autoComplete="off" onSubmit={handleSubmit}>
+      <Label>
+        Name
+        <Input
+          type="text"
+          name="name"
+          value={name}
+          required
+          onChange={handleChange}
+        />
+      </Label>
 
-        <br />
-        <Label>
-          Number
-          <Input
-            type="tel"
-            name="number"
-            value={this.state.number}
-            required
-            onChange={this.handleChange}
-          />
-        </Label>
+      <br />
+      <Label>
+        Number
+        <Input
+          type="tel"
+          name="number"
+          value={number}
+          required
+          onChange={handleChange}
+        />
+      </Label>
 
-        <Button type="submit">Add contact</Button>
-      </FormContact>
-    );
-  }
-}
+      <Button type="submit">Add contact</Button>
+    </FormContact>
+  );
+};
