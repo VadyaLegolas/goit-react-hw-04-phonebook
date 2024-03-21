@@ -7,15 +7,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
+  const [contacts, setContacts] = useState(() => {
     const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
     if (localStorageContacts) {
-      setContacts(localStorageContacts);
+      return localStorageContacts;
+    }else {
+      return [];
     }
-  }, []);
+  });
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
